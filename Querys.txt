@@ -1,0 +1,105 @@
+---Creando Base de Datos
+
+CREATE DATABASE `Mibus` /*!40100 COLLATE 'utf8mb4_0900_ai_ci' */
+
+
+---Creando tabla 1 para archivo pattern_detail
+
+CREATE TABLE `Pattern_Detail` (
+	`ID` INT NOT NULL AUTO_INCREMENT,
+	`RT_ID` VARCHAR(50) NOT NULL,
+	`SN` VARCHAR(100) NOT NULL,
+	`STOP_CD` VARCHAR(50) NOT NULL,
+	`PATTN_DETAIL_ID` VARCHAR(50) NOT NULL,
+	`IS_ACTIVE` VARCHAR(50) NOT NULL,
+	`LMT_SPD` VARCHAR(50) NOT NULL,
+	`DIST` VARCHAR(10000) NOT NULL,
+	`TOPOLOGY` VARCHAR(50) NOT NULL DEFAULT '',
+	PRIMARY KEY (`ID`)
+)
+COLLATE='utf8mb4_0900_ai_ci'
+;
+
+----- cargando data del .csv
+
+PRIORITY LOCAL INFILE 'C:\\Users\\Usuario\\Desktop\\Prueba programador Mibus\\pattern_detail.csv' REPLACE INTO TABLE `mibus`.`pattern_detail` CHARACTER SET latin1 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY '"' LINES TERMINATED BY '\r\n' (`RT_ID`, `SN`, `STOP_CD`, `PATTN_DETAIL_ID`, `IS_ACTIVE`, `LMT_SPD`, `DIST`, `TOPOLOGY`);
+/* 63,489 rows imported in 10.266 seconds. */
+
+
+---- creando tabla  2 de transacciones
+
+CREATE TABLE `Transacciones` (
+	`ID` INT NOT NULL AUTO_INCREMENT,
+	`Fecha_Transaccion` VARCHAR(100) NOT NULL,
+	`Bus` VARCHAR(50) NOT NULL DEFAULT 0,
+	`Validador` VARCHAR(100) NOT NULL DEFAULT 0,
+	`Tarjeta` VARCHAR(100) NOT NULL DEFAULT 0,
+	`Fecha_RegistroCle` VARCHAR(100) NOT NULL,
+	`Tarifa_Monto` VARCHAR(50) NOT NULL,
+	`CTipo_Transaccion` VARCHAR(50) NOT NULL,
+	`Codigo_Transaccion` VARCHAR(50) NOT NULL,
+	`Fecha_Contabilizacion` VARCHAR(100) NOT NULL,
+	PRIMARY KEY (`ID`)
+)
+COLLATE='utf8mb4_0900_ai_ci'
+;
+
+
+-----cargando datos del -csv--------------------------------------
+
+LOAD DATA LOW_PRIORITY LOCAL INFILE 'C:\\Users\\Usuario\\Desktop\\Prueba programador Mibus\\transacciones.csv' REPLACE INTO TABLE `mibus`.`transacciones` CHARACTER SET utf8 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY '"' LINES TERMINATED BY '\r\n' IGNORE 1 LINES (`Fecha_Transaccion`, `Bus`, `Validador`, `Tarjeta`, `Fecha_RegistroCle`, `Tarifa_Monto`, `CTipo_Transaccion`, `Codigo_Transaccion`, `Fecha_Contabilizacion`);
+/* 727,041 rows imported in 310.047 seconds. */
+
+
+
+---- vista con datos del arco incial del pattern_detail ---------------------------------
+
+CREATE VIEW inital_arc AS
+SELECT RT_ID, 
+SN AS SN_B, 
+STOP_CD AS STOP_CD_B,
+DIST,
+LMT_SPD
+FROM  pattern_detail 
+WHERE SN IN (SELECT MIN(CAST(SN AS UNSIGNED)) FROM pattern_detail)
+GROUP BY RT_ID
+
+
+---- vista con rt_id y sn_e del arco final ---------------------------------
+
+
+CREATE VIEW farc_code AS
+SELECT RT_ID, MAX(CAST(SN AS UNSIGNED)) AS SN_E
+FROM pattern_detail
+GROUP BY RT_ID
+
+
+---- vista con datos del arco incial del pattern_detail ---------------------------------
+
+
+CREATE VIEW final_arc AS
+SELECT pattern_detail.RT_ID,
+pattern_detail.SN AS SN_E,
+pattern_detail.STOP_CD AS STOP_CD_E,
+pattern_detail.DIST,
+pattern_detail.LMT_SPD 
+FROM pattern_detail 
+INNER JOIN mibus.farc_code 
+WHERE pattern_detail.RT_ID = mibus.farc_code.RT_ID 
+AND pattern_detail.SN = mibus.farc_code.SN_E
+
+
+
+---- vista que tendra los datos del problema 1 y se exportara en un .csv ---------------------------------
+
+CREATE VIEW Distancias AS
+SELECT mibus.inital_arc.RT_ID,
+mibus.inital_arc.SN_B,
+mibus.inital_arc.STOP_CD_B,
+mibus.final_arc.SN_E,
+mibus.final_arc.STOP_CD_E,
+(mibus.final_arc.DIST-mibus.inital_arc.DIST) AS DIST,
+mibus.final_arc.LMT_SPD
+FROM mibus.inital_arc
+INNER JOIN mibus.final_arc
+WHERE mibus.inital_arc.RT_ID = mibus.final_arc.RT_ID 

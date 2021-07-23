@@ -96,8 +96,15 @@
 				</button>
 			</a>
 		</div>
-			
-			
+		
+		<div class="center">	
+			<a href="transac_dia.php">
+				<button name="perfil" id="perfil"type="button" class="btn btn-success btn-lg">
+					<b>Descargar Informe de Transacciones Diarias</b>
+						<i class='fas fa-download'></i>
+				</button>
+			</a>
+		</div>	
 	</div>
 	</div>
 	</div>

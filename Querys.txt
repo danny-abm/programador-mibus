@@ -103,3 +103,93 @@ mibus.final_arc.LMT_SPD
 FROM mibus.inital_arc
 INNER JOIN mibus.final_arc
 WHERE mibus.inital_arc.RT_ID = mibus.final_arc.RT_ID 
+
+---- vista de cantidad transacciones por hora------------------------------
+
+CREATE VIEW TransaccionesXhora AS
+SELECT count(fecha_transaccion) AS 'Trans_HORA 00' ,
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 01:00" AND fecha_transaccion<="01/26/2018 02:00") AS 'Trans_HORA 01',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 02:00" AND fecha_transaccion<="01/26/2018 03:00") AS 'Trans_HORA 02',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 03:00" AND fecha_transaccion<="01/26/2018 04:00") AS 'Trans_HORA 03',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 04:00" AND fecha_transaccion<="01/26/2018 05:00") AS 'Trans_HORA 04',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 05:00" AND fecha_transaccion<="01/26/2018 06:00") AS 'Trans_HORA 05',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 06:00" AND fecha_transaccion<="01/26/2018 07:00") AS 'Trans_HORA 06',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 07:00" AND fecha_transaccion<="01/26/2018 08:00") AS 'Trans_HORA 07',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 08:00" AND fecha_transaccion<="01/26/2018 09:00") AS 'Trans_HORA 08',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 09:00" AND fecha_transaccion<="01/26/2018 10:00") AS 'Trans_HORA 09',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 10:00" AND fecha_transaccion<="01/26/2018 11:00") AS 'Trans_HORA 10',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 11:00" AND fecha_transaccion<="01/26/2018 12:00") AS 'Trans_HORA 11',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 12:00" AND fecha_transaccion<="01/26/2018 13:00") AS 'Trans_HORA 12',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 13:00" AND fecha_transaccion<="01/26/2018 14:00") AS 'Trans_HORA 13',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 14:00" AND fecha_transaccion<="01/26/2018 15:00") AS 'Trans_HORA 14',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 15:00" AND fecha_transaccion<="01/26/2018 16:00") AS 'Trans_HORA 15',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 16:00" AND fecha_transaccion<="01/26/2018 17:00") AS 'Trans_HORA 16',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 17:00" AND fecha_transaccion<="01/26/2018 18:00") AS 'Trans_HORA 17',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 18:00" AND fecha_transaccion<="01/26/2018 19:00") AS 'Trans_HORA 18',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 19:00" AND fecha_transaccion<="01/26/2018 29:00") AS 'Trans_HORA 19',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 20:00" AND fecha_transaccion<="01/26/2018 21:00") AS 'Trans_HORA 20',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 21:00" AND fecha_transaccion<="01/26/2018 22:00") AS 'Trans_HORA 21',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 22:00" AND fecha_transaccion<="01/26/2018 23:00") AS 'Trans_HORA 22',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 23:00" AND fecha_transaccion<="01/26/2018 24:00") AS 'Trans_HORA 23',
+(SELECT count(fecha_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 24:00" AND fecha_transaccion<="01/27/2018 00:00") AS 'Trans_HORA 24'
+from transacciones WHERE fecha_transaccion>="01/26/2018 00:00" AND fecha_transaccion<="01/26/2018 01:00";
+
+---- vista de cantidad pasajeros por hora------------------------------
+CREATE VIEW PasajerosXhora AS
+SELECT count(codigo_transaccion) AS 'NumPjero_HORA 00' ,
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 01:00" AND fecha_transaccion<="01/26/2018 02:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 01',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 02:00" AND fecha_transaccion<="01/26/2018 03:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 02',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 03:00" AND fecha_transaccion<="01/26/2018 04:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 03',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 04:00" AND fecha_transaccion<="01/26/2018 05:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 04',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 05:00" AND fecha_transaccion<="01/26/2018 06:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 05',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 06:00" AND fecha_transaccion<="01/26/2018 07:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 06',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 07:00" AND fecha_transaccion<="01/26/2018 08:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 07',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 08:00" AND fecha_transaccion<="01/26/2018 09:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 08',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 09:00" AND fecha_transaccion<="01/26/2018 10:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 09',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 10:00" AND fecha_transaccion<="01/26/2018 11:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 10',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 11:00" AND fecha_transaccion<="01/26/2018 12:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 11',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 12:00" AND fecha_transaccion<="01/26/2018 13:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 12',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 13:00" AND fecha_transaccion<="01/26/2018 14:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 13',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 14:00" AND fecha_transaccion<="01/26/2018 15:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 14',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 15:00" AND fecha_transaccion<="01/26/2018 16:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 15',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 16:00" AND fecha_transaccion<="01/26/2018 17:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 16',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 17:00" AND fecha_transaccion<="01/26/2018 18:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 17',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 18:00" AND fecha_transaccion<="01/26/2018 19:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 18',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 19:00" AND fecha_transaccion<="01/26/2018 29:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 19',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 20:00" AND fecha_transaccion<="01/26/2018 21:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 20',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 21:00" AND fecha_transaccion<="01/26/2018 22:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 21',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 22:00" AND fecha_transaccion<="01/26/2018 23:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 22',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 23:00" AND fecha_transaccion<="01/26/2018 24:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 23',
+(SELECT count(codigo_transaccion)  from transacciones WHERE fecha_transaccion>="01/26/2018 24:00" AND fecha_transaccion<="01/27/2018 00:00" AND codigo_transaccion=19) AS 'NumPjero_HORA 24'
+from transacciones WHERE fecha_transaccion>="01/26/2018 00:00" AND fecha_transaccion<="01/26/2018 01:00" AND codigo_transaccion=19;
+
+
+---- vista de cantidad buses por hora------------------------------
+
+CREATE VIEW CantBusXhora AS
+SELECT COUNT(DISTINCT bus) AS 'NumBus_HORA 00' ,
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 01:00" AND fecha_transaccion<="01/26/2018 02:00" ) AS 'NumBus_HORA 01',
+(SELECT COUNT(DISTINCT bus) from transacciones WHERE fecha_transaccion>="01/26/2018 02:00" AND fecha_transaccion<="01/26/2018 03:00" ) AS 'NumBus_HORA 02',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 03:00" AND fecha_transaccion<="01/26/2018 04:00" ) AS 'NumBus_HORA 03',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 04:00" AND fecha_transaccion<="01/26/2018 05:00" ) AS 'NumBus_HORA 04',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 05:00" AND fecha_transaccion<="01/26/2018 06:00" ) AS 'NumBus_HORA 05',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 06:00" AND fecha_transaccion<="01/26/2018 07:00" ) AS 'NumBus_HORA 06',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 07:00" AND fecha_transaccion<="01/26/2018 08:00" ) AS 'NumBus_HORA 07',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 08:00" AND fecha_transaccion<="01/26/2018 09:00" ) AS 'NumBus_HORA 08',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 09:00" AND fecha_transaccion<="01/26/2018 10:00" ) AS 'NumBus_HORA 09',
+(SELECT COUNT(DISTINCT bus) from transacciones WHERE fecha_transaccion>="01/26/2018 10:00" AND fecha_transaccion<="01/26/2018 11:00" ) AS 'NumBus_HORA 10',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 11:00" AND fecha_transaccion<="01/26/2018 12:00" ) AS 'NumBus_HORA 11',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 12:00" AND fecha_transaccion<="01/26/2018 13:00" ) AS 'NumBus_HORA 12',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 13:00" AND fecha_transaccion<="01/26/2018 14:00" ) AS 'NumBus_HORA 13',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 14:00" AND fecha_transaccion<="01/26/2018 15:00" ) AS 'NumBus_HORA 14',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 15:00" AND fecha_transaccion<="01/26/2018 16:00" ) AS 'NumBus_HORA 15',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 16:00" AND fecha_transaccion<="01/26/2018 17:00" ) AS 'NumBus_HORA 16',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 17:00" AND fecha_transaccion<="01/26/2018 18:00") AS 'NumBus_HORA 17',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 18:00" AND fecha_transaccion<="01/26/2018 19:00" ) AS 'NumBus_HORA 18',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 19:00" AND fecha_transaccion<="01/26/2018 29:00" ) AS 'NumBus_HORA 19',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 20:00" AND fecha_transaccion<="01/26/2018 21:00" ) AS 'NumBus_HORA 20',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 21:00" AND fecha_transaccion<="01/26/2018 22:00" ) AS 'NumBus_HORA 21',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 22:00" AND fecha_transaccion<="01/26/2018 23:00" ) AS 'NumBus_HORA 22',
+(SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 23:00" AND fecha_transaccion<="01/26/2018 24:00" ) AS 'NumBus_HORA 23',
+(SELECT COUNT(DISTINCT bus) from transacciones WHERE fecha_transaccion>="01/26/2018 24:00" AND fecha_transaccion<="01/27/2018 00:00" ) AS 'NumBus_HORA 24'
+from transacciones WHERE fecha_transaccion>="01/26/2018 00:00" AND fecha_transaccion<="01/26/2018 01:00" ;

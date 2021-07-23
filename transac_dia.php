@@ -5,7 +5,7 @@ include('conexion.php');//CONEXION A LA BD
 	// NOMBRE DEL ARCHIVO Y CHARSET
     set_time_limit( 0 );
 	header('Content-Type:text/csv; charset=latin1');
-	header('Content-Disposition: attachment; filename="Transacciones.csv"');
+	header('Content-Disposition: attachment; filename="Report_Transacciones.csv"');
 
 	// SALIDA DEL ARCHIVO
 	$salida=fopen('php://output', 'w');
@@ -116,6 +116,19 @@ while($filaR= $reporteCsv->fetch_assoc())
                             $filaR['NumBus_HORA 22'],
                             $filaR['NumBus_HORA 23'],
                             $filaR['NumBus_HORA 24']));
+
+fputcsv($salida, array(''));
+fputcsv($salida, array(''));
+fputcsv($salida, array('30 BUSES QUE MAS TRANSPORTAN PERSONAS AL DIA'));
+fputcsv($salida, array('bus', 'cantidad_pasajeros'));
+// QUERY PARA CREAR EL REPORTE
+$reporteCsv=$conn->query("SELECT  *  FROM mibus.buses_mas_pasj");
+while($filaR= $reporteCsv->fetch_assoc())
+    fputcsv($salida, array($filaR['bus'], 
+                        $filaR['cantidad_pasajeros']));
+
+
+                          
 
 
 

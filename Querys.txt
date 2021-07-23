@@ -50,7 +50,7 @@ COLLATE='utf8mb4_0900_ai_ci'
 LOAD DATA LOW_PRIORITY LOCAL INFILE 'C:\\Users\\Usuario\\Desktop\\Prueba programador Mibus\\transacciones.csv' REPLACE INTO TABLE `mibus`.`transacciones` CHARACTER SET utf8 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY '"' LINES TERMINATED BY '\r\n' IGNORE 1 LINES (`Fecha_Transaccion`, `Bus`, `Validador`, `Tarjeta`, `Fecha_RegistroCle`, `Tarifa_Monto`, `CTipo_Transaccion`, `Codigo_Transaccion`, `Fecha_Contabilizacion`);
 /* 727,041 rows imported in 310.047 seconds. */
 
-
+--------VISTAS PARTE 1---------------------------------------------
 
 ---- vista con datos del arco incial del pattern_detail ---------------------------------
 
@@ -103,6 +103,9 @@ mibus.final_arc.LMT_SPD
 FROM mibus.inital_arc
 INNER JOIN mibus.final_arc
 WHERE mibus.inital_arc.RT_ID = mibus.final_arc.RT_ID 
+
+
+--------VISTAS PARTE 2-----------------------------------------------------------------
 
 ---- vista de cantidad transacciones por hora------------------------------
 
@@ -193,3 +196,9 @@ SELECT COUNT(DISTINCT bus) AS 'NumBus_HORA 00' ,
 (SELECT COUNT(DISTINCT bus)  from transacciones WHERE fecha_transaccion>="01/26/2018 23:00" AND fecha_transaccion<="01/26/2018 24:00" ) AS 'NumBus_HORA 23',
 (SELECT COUNT(DISTINCT bus) from transacciones WHERE fecha_transaccion>="01/26/2018 24:00" AND fecha_transaccion<="01/27/2018 00:00" ) AS 'NumBus_HORA 24'
 from transacciones WHERE fecha_transaccion>="01/26/2018 00:00" AND fecha_transaccion<="01/26/2018 01:00" ;
+
+
+--- vista 30 buses que mas transporta pasajeros al día---
+
+CREATE VIEW buses_mas_pasj AS
+SELECT bus, COUNT(codigo_transaccion) AS cantidad_pasajeros  from transacciones GROUP BY bus ORDER BY COUNT(codigo_transaccion) DESC LIMIT 30
